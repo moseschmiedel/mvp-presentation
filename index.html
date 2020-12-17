@@ -16,8 +16,94 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Overview</h2>
+					<ul>
+						<li>MVP</li>
+						<li>Issues</li>
+						<li>Design</li>
+						<li>CI/CD</li>
+					</ul>
+				</section>
+				<section>
+				    <h2>MVP</h2>
+				    <iframe src="https://swtp-11-greenc.herokuapp.com" width=100% height=500em style="background: white"></iframe><br>
+				    <a href="https://swtp-11-greenc.herokuapp.com">swtp-11-greenc.herokuapp.com</a>
+				</section>
+				<section>
+				    <h2>MVP - JSON</h2>
+				    <pre><code data-trim data-noescape data-line-numbers>
+{
+  "applicationId": 1,
+  "name": "application1",
+  "options": [
+    {
+      "optionId": 1,
+      "name": "option1",
+      "valueType": "boolean"
+    },
+    ...
+  ]
+}
+				    </code></pre>
+				</section>
+				<section>
+				    <h2>Issues</h2>
+				    <img src="assets/issues.png"/>
+				</section>
+				<section>
+				    <h2>Design</h2>
+				    <section>
+					<img src="assets/startpage.png"/>
+				    </section>
+				    <section>
+					<img src="assets/template.png"/>
+				    </section>
+				    <section>
+					<img src="assets/login.png"/>
+				    </section>
+				    <section>
+					<img src="assets/register.png"/>
+				    </section>
+				    <section>
+					<img src="assets/kontoinfo.png"/>
+				    </section>
+				    <section>
+					<img src="assets/kennwort.png"/>
+				    </section>
+				</section>
+				<section>
+				    <h2>CI/CD</h2>
+				    <pre><code data-trim data-noescape data-line-numbers>
+image: maven:3.6.3-openjdk-11-slim
+
+stages:
+  - test
+  - deploy
+
+before_script:
+
+test:
+    stage: test
+    script:
+      - echo "All tests successfull"
+
+production:
+    stage: deploy
+    script:
+      - rm -rf requirements_engineering protokolle feature_model greenc/Dockerfile .gitlab-ci.yml
+      - mv greenc/* .
+      - rm -rf greenc
+      - apt-get update -qy
+      - apt-get install -y ruby-dev git
+      - gem install dpl
+      - git add .
+      - git commit -m "Deploy just the good stuff"
+      - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY
+    only:
+      - master
+				    </code></pre>
+				</section>
 			</div>
 		</div>
 
